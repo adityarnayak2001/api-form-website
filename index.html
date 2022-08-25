@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+    <head>
+        <link rel="stylesheet" href="style.css" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <div class="container" id="container">
+            <div class="form-container sign-in-container">
+                <div class="form">
+                    <h1>Sign in</h1>
+                    <input type="email" placeholder="Email" id="email" name="email"/>
+                    <input type="password" placeholder="Secret Key" id="secret_key" name="secret_key"/>
+                    <button type="submit" id="signInButton">Sign In</button>
+                </div>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-right">
+                        <h1 id="greetings">Anyong, Chingu!</h1>
+                        <p id="greeting-cont">Enter your personal details and start journey with us</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>
+                Created with <i class="fa fa-heart"></i> by
+                <a target="_blank" href="https://florin-pop.com">Radon</a>
+            </p>
+        </footer>        
+    </body>
+    <script type="module">
+        // Import the functions you need from the SDKs you nee
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, fetchSignInMethodsForEmail, signInWithEmailAndPassword} from 'https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js';
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+apiKey: "AIzaSyDfyw5imlf334KAgveGqVM_VkHTRs8yZiA",
+authDomain: "ecotag-211c8.firebaseapp.com",
+projectId: "ecotag-211c8",
+storageBucket: "ecotag-211c8.appspot.com",
+messagingSenderId: "645746490811",
+appId: "1:645746490811:web:4823527c73bf0d8618989e",
+measurementId: "G-KWHSSV8FMV"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const container = document.getElementById('container');
+const auth = getAuth();
+var flag = 0;
+const signInButton = document.getElementById('signInButton');
+
+// onAuthStateChanged(auth, (user) => {
+// if (user) {
+// // User is signed in, see docs for a list of available properties
+// // https://firebase.google.com/docs/reference/js/firebase.User
+// const uid = user.uid;
+// // ...
+// } else {
+// // User is signed out
+// // ...
+// }
+// });
+
+
+signInButton.addEventListener('click', () => {
+    if(flag==0){
+        var email = document.getElementById('email').value;
+        var secret_key = document.getElementById('secret_key').value;
+        console.log(email);
+
+        fetchSignInMethodsForEmail(auth, email)
+        .then((signInMethods) => {
+            console.log("fetching sign in details");
+            if (signInMethods.length==0) {
+                console.log("fetched 0 sign in details");
+                createUserWithEmailAndPassword(auth, email, secret_key)
+                .then((userCredential) => {
+                    console.log("create user in details");
+                    var user = userCredential.user.uid;
+                    console.log("user-id:"+user);
+                    document.getElementById("greetings").innerHTML="Here's ure UID:";
+                    document.getElementById("greeting-cont").innerHTML=user;
+                    signInButton.innerHTML="Reset";
+                    flag=1;
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log(errorCode);
+                    console.log(errorMessage);
+                });
+            }else{
+                console.log("fetching 1 sign in details");
+                signInWithEmailAndPassword(auth, email, secret_key)
+                .then((userCredential) => {
+                // Signed in
+                console.log("logged in");
+                    var user = userCredential.user.uid;
+                    console.log("user-id:"+user);
+                    document.getElementById("greetings").innerHTML="Here's ure UID:";
+                    document.getElementById("greeting-cont").innerHTML=user;
+                    signInButton.innerHTML="Reset";
+                    flag=1;
+                })
+                .catch((error) => {
+                    switch(error.code){
+                        case 'auth/invalid-email':
+                            console.log('Email address is invalid');
+                            break;
+                        case 'auth/weak-password':
+                            console.log('Set a stronger password');
+                            break;
+                        case 'auth/invalid-password':
+                            console.log('Password is invalid');
+                            break;
+                    }
+                });
+            }
+        })
+        .catch((error) => { 
+            // Some error occurred.
+            console.log(error);
+        });
+    }
+    else{
+        document.getElementById("greetings").innerHTML="Anyong, Chingu!";
+        document.getElementById("greeting-cont").innerHTML="Enter your personal details and start journey with us";
+        document.getElementById("email").value="";
+        document.getElementById("secret_key").value="";
+        signInButton.innerHTML="Sign In";
+        flag=0;
+    }
+});
+    </script>
+</html>
