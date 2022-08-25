@@ -14,7 +14,19 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
 	margin: -20px 0 50px;
-	background-image: url("https://img.freepik.com/free-photo/beautiful-tree-middle-field-covered-with-grass-with-tree-line-background_181624-29267.jpg?w=2000")
+	background-image: url("./video.png")
+}
+
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
 }
 
 h1 {
@@ -100,7 +112,7 @@ input {
 	width: 768px;
 	max-width:50%;
 	min-height: 480px;
-	animation-duration: 3s;
+	animation-duration: 2s;
   	animation-name: slidein;
 }
 
