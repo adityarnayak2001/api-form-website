@@ -1,22 +1,18 @@
 <!DOCTYPE html>
     <head>
         <link rel="stylesheet" href="style.css" />
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <div class="container" id="container">
             <div class="form-container sign-in-container">
-                
-                <lottie-player class="bg" src="https://assets1.lottiefiles.com/packages/lf20_xn0pkls7.json" background="transparent"
-                    speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-                    <div class="form">
-                        <h1>Sign in</h1>
-                        <input type="email" placeholder="Email" id="email" name="email" />
-                        <input type="password" placeholder="Secret Key" id="secret_key" name="secret_key" />
-                        <button type="submit" id="signInButton">Sign In</button>
-                    </div>
+                <div class="form">
+                    <h1>Sign in</h1>
+                    <input type="email" placeholder="Email" id="email" name="email"/>
+                    <input type="password" placeholder="Secret Key" id="secret_key" name="secret_key"/>
+                    <button type="submit" id="signInButton">Sign In</button>
+                </div>
             </div>
             <div class="overlay-container">
                 <div class="overlay">
@@ -24,16 +20,15 @@
                         <h1 id="greetings">Anyong, Chingu!</h1>
                         <p id="greeting-cont">Enter your personal details and start journey with us</p>
                     </div>
-                    
                 </div>
             </div>
         </div>
-        <!-- <footer>
+        <footer>
             <p>
                 Created with <i class="fa fa-heart"></i> by
                 <a target="_blank" href="https://florin-pop.com">Radon</a>
             </p>
-        </footer>         -->
+        </footer>        
     </body>
     <script type="module">
         // Import the functions you need from the SDKs you nee
